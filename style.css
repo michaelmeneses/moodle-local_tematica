@@ -1,0 +1,15 @@
+
+.tematic-list-tags ul.tematic-tags {
+    margin: 20px 0px;
+}
+.tematic-list-tags ul.tematic-tags li.tematic-tag {
+    display: inline-block;
+    margin: 10px 0px;
+    min-width: 200px;
+    text-align: center;
+}
+.tematic-list-tags ul.tematic-tags li.tematic-tag img {
+    margin: auto;
+    width: 100px;
+}
+

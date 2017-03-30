@@ -27,6 +27,7 @@ $PAGE->set_context($context);
 $PAGE->set_heading(get_string('pluginname', 'local_tematica'));
 $PAGE->set_title(get_string('pluginname', 'local_tematica'));
 $PAGE->set_url('/local/tematica/index.php');
+$PAGE->requires->css('/local/tematica/style.css');
 
 $output = $PAGE->get_renderer('local_tematica');
 

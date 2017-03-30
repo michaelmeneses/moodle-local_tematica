@@ -10,3 +10,4 @@
 
 // Admin settings language
 $string['pluginname'] = 'Temática';
+$string['list_tags'] = 'Selecione uma temática para filtrar os recursos correspondentes:';
