@@ -10,6 +10,7 @@
 
 require_once('../../config.php');
 
+$tagid = optional_param('id', 0, PARAM_INT);
 $courseid = optional_param('courseid', 0, PARAM_INT);
 
 if ($courseid) {
@@ -23,6 +24,11 @@ if ($courseid) {
     $PAGE->set_pagelayout('standard');
 }
 
+$tag = null;
+if ($tagid) {
+    $tag = $DB->get_record('tag', array('id' => $tagid), '*', MUST_EXIST);
+}
+
 $PAGE->set_context($context);
 $PAGE->set_heading(get_string('pluginname', 'local_tematica'));
 $PAGE->set_title(get_string('pluginname', 'local_tematica'));
@@ -33,7 +39,7 @@ $output = $PAGE->get_renderer('local_tematica');
 
 echo $OUTPUT->header();
 
-echo $output->print_header($course);
+echo $output->print_header($course, $tag);
 echo $output->content();
 
 echo $OUTPUT->footer();

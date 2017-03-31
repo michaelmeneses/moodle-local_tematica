@@ -14,20 +14,39 @@ require_once(__DIR__.'/lib.php');
 
 class local_tematica_renderer extends plugin_renderer_base
 {
-    function print_header($course = null)
+    public $course;
+    public $tag;
+
+    function print_header($course = null, $tag = null)
     {
-        $output = '';
-        $output .= html_writer::tag('h1',get_string('pluginname', 'local_tematica'));
-        if ($course) {
-            $output .= html_writer::tag('h3', $course->fullname);
+        if (!is_null($course)) {
+            $this->course = $course;
         }
-        return html_writer::tag('div', $output, ['class' => 'tematic_header']);
+        if (!is_null($tag)) {
+            $this->tag = $tag;
+        }
+        $output = '';
+        $output .= html_writer::tag('h1',get_string('pluginname', 'local_tematica'), ['class' => 'tematic-pagename']);
+        if ($this->course) {
+            $output .= html_writer::tag('h3', $this->course->fullname, ['class' => 'tematic-coursename']);
+        }
+        if ($this->tag) {
+            $output .= html_writer::start_div('tematic-tag');
+            $output .= file_rewrite_pluginfile_urls($this->tag->description, 'pluginfile.php', context_system::instance()->id, 'tag', 'description', $this->tag->id);
+            $output .= html_writer::tag('h3', $this->tag->rawname);
+            $output .= html_writer::end_div();
+        }
+        return html_writer::tag('div', $output, ['class' => 'tematic-header']);
     }
 
     function content()
     {
         $content = '';
-        $content .= $this->list_tags();
+        if ($this->tag) {
+            $content .= $this->list_resources();
+        } else {
+            $content .= $this->list_tags();
+        }
         return html_writer::tag('div',$content, ['class' => 'tematic_content']);
     }
 
@@ -45,11 +64,23 @@ class local_tematica_renderer extends plugin_renderer_base
                     $output .= file_rewrite_pluginfile_urls($tag->description, 'pluginfile.php', context_system::instance()->id, 'tag', 'description', $tag->id);
                 }
                 $name = html_writer::tag('h4', $tag->rawname);
-                $output .= html_writer::link(new moodle_url('/local/tematica/index.php', ['id' => $tag->id]), $name);
+                $params['id'] = $tag->id;
+                if ($this->course) {
+                    $params['courseid'] = $this->course->id;
+                }
+                $output .= html_writer::link(new moodle_url('/local/tematica/index.php', $params), $name);
                 $output .= html_writer::end_tag('li');
             }
             $output .= html_writer::end_tag('ul');
         }
+        $output .= html_writer::end_div();
+        return $output;
+    }
+
+    function list_resources()
+    {
+        $output = '';
+        $output .= html_writer::start_div('tematic-list-resources');
         $output .= html_writer::end_div();
         return $output;
     }

@@ -1,4 +1,9 @@
 
+
+.tematic-header div.tematic-tag img {
+    float: left;
+    width: 100px;
+}
 .tematic-list-tags ul.tematic-tags {
     margin: 20px 0px;
 }
