@@ -36,7 +36,7 @@ class local_tematica_renderer extends plugin_renderer_base
             $output .= html_writer::tag('h3', $this->tag->rawname);
             $output .= html_writer::end_div();
         }
-        return html_writer::tag('div', $output, ['class' => 'tematic-header']);
+        return html_writer::tag('div', $output, ['class' => 'tematic-header clearfix']);
     }
 
     function content()
@@ -47,7 +47,7 @@ class local_tematica_renderer extends plugin_renderer_base
         } else {
             $content .= $this->list_tags();
         }
-        return html_writer::tag('div',$content, ['class' => 'tematic_content']);
+        return html_writer::tag('div',$content, ['class' => 'tematic-content']);
     }
 
     function list_tags()
@@ -55,7 +55,7 @@ class local_tematica_renderer extends plugin_renderer_base
         $output = '';
         $output .= html_writer::start_div('tematic-list-tags');
         $output .= html_writer::tag('h3', get_string('list_tags', 'local_tematica'));
-        $tags = getTags();
+        $tags = get_tags();
         if ($tags) {
             $output .= html_writer::start_tag('ul', ['class' => 'tematic-tags']);
             foreach ($tags as $tag) {
@@ -81,6 +81,12 @@ class local_tematica_renderer extends plugin_renderer_base
     {
         $output = '';
         $output .= html_writer::start_div('tematic-list-resources');
+        $output .= get_tag_resources($this->tag);
+        $params = array();
+        if ($this->course) {
+            $params['courseid'] = $this->course->id;
+        }
+        $output .= html_writer::link(new moodle_url('/local/tematica/index.php', $params), get_string('back'));
         $output .= html_writer::end_div();
         return $output;
     }

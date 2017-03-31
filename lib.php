@@ -15,7 +15,7 @@ define("PLUGINNAME", "TEMATICA");
 /**
  * Return Tags from colletion PLUGINNAME
  */
-function getTags(){
+function get_tags(){
     global $DB;
 
     $collection = $DB->get_record('tag_coll',['name' => PLUGINNAME]);
@@ -24,4 +24,17 @@ function getTags(){
     }
     $tags = $DB->get_records('tag', ['tagcollid' => $collection->id]);
     return $tags;
+}
+
+/**
+ * Return Resources from Tag
+ */
+function get_tag_resources($tag) {
+    global $DB, $OUTPUT;
+
+    $resources = '';
+    $items = course_get_tagged_course_modules($tag);
+    $resources .= $items->content;
+
+    return $resources;
 }

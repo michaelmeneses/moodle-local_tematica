@@ -4,6 +4,9 @@
     float: left;
     width: 100px;
 }
+.tematic-content {
+    margin: 20px 0px;
+}
 .tematic-list-tags ul.tematic-tags {
     margin: 20px 0px;
 }
