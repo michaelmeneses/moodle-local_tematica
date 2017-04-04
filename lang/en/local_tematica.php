@@ -10,4 +10,5 @@
 
 // Admin settings language
 $string['pluginname'] = 'Tematic';
-$string['list_tags'] = 'Selecione uma temática para filtrar os recursos correspondentes:';
+$string['list_tags'] = 'Select a tag to filter the corresponding resources:';
+$string['noresource'] = 'No resources found';

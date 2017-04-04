@@ -29,12 +29,42 @@ function get_tags(){
 /**
  * Return Resources from Tag
  */
-function get_tag_resources($tag) {
+function get_tag_resources($tag, $course = null) {
     global $DB, $OUTPUT;
 
-    $resources = '';
-    $items = course_get_tagged_course_modules($tag);
-    $resources .= $items->content;
+    $resources = array();
+    if ($course) {
+        $modinfo = get_fast_modinfo($course);
+        $sql = "SELECT cm.id as cmid, cm.section as sectionid, cs.name as sectionname
+                FROM mdl_tag_instance tagi
+                JOIN mdl_course_modules cm ON cm.id = tagi.itemid
+                JOIN mdl_course_sections cs ON cs.id = cm.section
+                WHERE tagi.itemtype like 'course_modules' AND cm.course = $course->id AND tagi.tagid = $tag->id
+                ORDER BY cm.section";
+        $items = $DB->get_recordset_sql($sql);
+
+        foreach ($items as $item) {
+            $resources[$item->sectionid][] = $modinfo->get_cm($item->cmid);
+        }
+
+        return $resources;
+    } else {
+        $items = course_get_tagged_course_modules($tag);
+        $resources = $items;
+    }
 
     return $resources;
+}
+
+/**
+ * Return sectionname
+ */
+function get_sectionname($course, $sectionid) {
+    global $DB;
+
+    $format = course_get_format($course);
+    $section = $DB->get_record('course_sections', array('id' => $sectionid));
+    $sectionname = $format->get_section_name($section);
+
+    return $sectionname;
 }
