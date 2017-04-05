@@ -1,7 +1,10 @@
 {
-    "name": "michaelmeneses/tematica",
+    "name": "michaelmeneses/moodle-local_tematica",
     "type": "moodle-local",
     "require": {
         "composer/installers": "~1.0"
+    },
+    "extra": {
+        "installer-name": "tematica"
     }
 }
