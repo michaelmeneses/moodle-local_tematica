@@ -39,7 +39,7 @@ function get_tag_resources($tag, $course = null) {
                 FROM mdl_tag_instance tagi
                 JOIN mdl_course_modules cm ON cm.id = tagi.itemid
                 JOIN mdl_course_sections cs ON cs.id = cm.section
-                WHERE tagi.itemtype like 'course_modules' AND cm.course = $course->id AND tagi.tagid = $tag->id
+                WHERE tagi.itemtype like 'course_modules' AND cm.course = $course->id AND tagi.tagid = $tag->id AND cm.visible = 1
                 ORDER BY cm.section";
         $items = $DB->get_recordset_sql($sql);
 
